@@ -1,0 +1,20 @@
+-- PostgreSQL compatible schema for testing
+-- Drop table if exists for clean setup
+DROP TABLE IF EXISTS posts CASCADE;
+
+-- Create posts table (PostgreSQL syntax)
+CREATE TABLE posts (
+    id              BIGSERIAL PRIMARY KEY,
+    title           VARCHAR(100) NOT NULL,
+    author          VARCHAR(20) NOT NULL,
+    password        VARCHAR(255) NOT NULL,
+    content         TEXT,
+    view_count      INT DEFAULT 0,
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP NULL,
+    is_deleted      BOOLEAN DEFAULT FALSE
+);
+
+-- Create indexes for better performance
+CREATE INDEX idx_posts_created_at ON posts(created_at DESC);
+CREATE INDEX idx_posts_is_deleted ON posts(is_deleted);

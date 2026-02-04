@@ -1,0 +1,172 @@
+# =======================================
+# Spring Boot & Maven
+# =======================================
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# =======================================
+# IntelliJ IDEA
+# =======================================
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+# =======================================
+# Eclipse
+# =======================================
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+*.launch
+*.classpath
+*.project
+*.settings/
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+# =======================================
+# VS Code
+# =======================================
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/workspaceStorage
+!.vscode槐学.code-workspace
+
+# =======================================
+# NetBeans
+# =======================================
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+nb-configuration.xml
+
+# =======================================
+# Apache Commons
+# =======================================
+commons.beanutils.*
+!.gitignore
+
+# =======================================
+# JDeveloper
+# =======================================
+.idea_modules/
+*.jpage
+**/.deployed*
+**/.deployedFiles
+**/.project
+**/.projectSettings
+**/.classpath
+**/.classpathSettings
+**/.settings
+**/.wtpmodules
+**/*.adf
+**/*.jpr
+**/*.jpx
+**/*.mwp
+**/*.wsdl
+**/*.xsd
+
+# =======================================
+# Oracle SQL Developer
+# =======================================
+.copyFiles.txt
+*.db-shm
+*.db-wal
+sqlite.db
+
+# =======================================
+# Operating System Files
+# =======================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+*.swo
+*~
+~*
+
+# =======================================
+# Environment & Config
+.env.*
+.env
+.env.local
+application-local.properties
+application-dev.properties
+application-prod.properties
+application-test.properties
+
+# Exceptions - never ignore these
+!.env.local.example
+!.env.example
+
+# =======================================
+# Docker
+# =======================================
+docker-compose.override.yml
+.docker/
+docker-compose.*.yml
+
+# =======================================
+# Logs & Temporary Files
+# =======================================
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+*.temp
+
+# =======================================
+# Build Artifacts
+# =======================================
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.exe
+*.dll
+*.so
+*.a
+*.lib
+
+# =======================================
+# Testing
+# =======================================
+coverage/
+.nyc_output/
+test-results/
+target/site/
+
+# =======================================
+# Agent Plans (Local Development)
+# =======================================
+.sisyphus/
+.agent/
+.plans/
