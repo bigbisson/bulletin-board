@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.finshot.bulletinboard.mapper.PostMapper">
+    
+    <!-- Result Map for Post entity -->
+    <resultMap id="PostResultMap" type="Post">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="author" column="author"/>
+        <result property="password" column="password"/>
+        <result property="content" column="content"/>
+        <result property="viewCount" column="view_count"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="isDeleted" column="is_deleted"/>
+    </resultMap>
+    
+    <!-- Find all active posts -->
+    <select id="findAllActive" resultMap="PostResultMap">
+        SELECT 
+            id, title, author, password, content, 
+            view_count, created_at, updated_at, is_deleted
+        FROM posts 
+        WHERE is_deleted = false 
+        ORDER BY created_at DESC
+    </select>
+    
+    <!-- Find post by ID -->
+    <select id="findById" resultMap="PostResultMap">
+        SELECT 
+            id, title, author, password, content, 
+            view_count, created_at, updated_at, is_deleted
+        FROM posts 
+        WHERE id = #{id} AND is_deleted = false
+    </select>
+    
+    <!-- Count active posts -->
+    <select id="countAllActive" resultType="int">
+        SELECT COUNT(*) FROM posts WHERE is_deleted = false
+    </select>
+    
+    <!-- Increment view count -->
+    <update id="incrementViewCount">
+        UPDATE posts SET view_count = view_count + 1 WHERE id = #{id}
+    </update>
+    
+    <!-- Insert new post -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO posts (
+            title, author, password, content, view_count, 
+            created_at, updated_at, is_deleted
+        ) VALUES (
+            #{title}, #{author}, #{password}, #{content}, 0, 
+            CURRENT_TIMESTAMP, NULL, false
+        )
+    </insert>
+    
+    <!-- Update post -->
+    <update id="update">
+        UPDATE posts 
+        SET title = #{title}, author = #{author}, content = #{content}, 
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id} AND password = #{password}
+    </update>
+    
+    <!-- Soft delete -->
+    <update id="softDelete">
+        UPDATE posts SET is_deleted = true WHERE id = #{id}
+    </update>
+    
+    <!-- Find password by ID -->
+    <select id="findPasswordById" resultType="String">
+        SELECT password FROM posts WHERE id = #{id}
+    </select>
+    
+</mapper>
