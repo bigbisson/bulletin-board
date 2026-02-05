@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>All Posts</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>📑 All Posts</h1>
+        <span class="badge bg-secondary" th:text="${postCount} + ' posts'">0 posts</span>
+    </div>
+    
+    <!-- Empty State -->
+    <div th:if="${posts.empty}" class="text-center py-5">
+        <div class="display-1 text-muted">📝</div>
+        <h3 class="text-muted mt-3">No posts yet</h3>
+        <p class="text-muted">Be the first to write a post!</p>
+        <a th:href="@{/post/new}" class="btn btn-primary btn-lg">Write First Post</a>
+    </div>
+    
+    <!-- Posts Table -->
+    <div th:if="!${posts.empty}" class="card shadow">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="text-center" style="width: 60px;">No.</th>
+                            <th>Title</th>
+                            <th style="width: 150px;">Author</th>
+                            <th class="text-center" style="width: 80px;">Views</th>
+                            <th class="text-center" style="width: 150px;">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="post : ${posts}">
+                            <td class="text-center" th:text="${post.id}">1</td>
+                            <td>
+                                <a th:href="@{/post/{id}(id=${post.id})}" 
+                                   th:text="${post.title}"
+                                   class="text-decoration-none fw-bold text-primary">
+                                    Post Title
+                                </a>
+                            </td>
+                            <td th:text="${post.author}">Author</td>
+                            <td class="text-center">
+                                <span class="badge bg-secondary" th:text="${post.viewCount}">0</span>
+                            </td>
+                            <td class="text-center text-muted" 
+                                th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">
+                                Date
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Floating Action Button (Mobile) -->
+    <a th:href="@{/post/new}" 
+       class="btn btn-primary btn-lg rounded-circle shadow position-fixed d-md-none"
+       style="bottom: 30px; right: 30px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+        ✏️
+    </a>
+</div>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${isEdit} ? 'Edit Post' : 'New Post'">New Post</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" 
+                th:text="${isEdit} ? 'Edit Post' : 'New Post'">New Post</li>
+        </ol>
+    </nav>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-white">
+                    <h3 class="mb-0" th:text="${isEdit} ? '✏️ Edit Post' : '📝 Write New Post'">
+                        Write New Post
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form th:action="${isEdit} ? @{/post/{id}/edit(id=${post.id})} : @{/post}}" 
+                          method="post"
+                          id="postForm"
+                          onsubmit="return validateForm()">
+                        
+                        <!-- Hidden password field for edit -->
+                        <input type="hidden" th:if="${isEdit}" name="password" th:value="${password}">
+                        
+                        <!-- Author -->
+                        <div class="mb-3">
+                            <label for="author" class="form-label fw-bold">Author *</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="author" 
+                                   name="author"
+                                   th:value="${post.author}"
+                                   maxlength="20"
+                                   placeholder="Enter author name"
+                                   required>
+                            <div class="form-text">
+                                <span id="authorBytes">0</span>/20 bytes 
+                                <span class="text-muted">(Korean = 2 bytes, English = 1 byte)</span>
+                            </div>
+                            <div class="invalid-feedback">Author name is too long</div>
+                        </div>
+                        
+                        <!-- Password (only for new posts) -->
+                        <div class="mb-3" th:if="!${isEdit}">
+                            <label for="password" class="form-label fw-bold">Password *</label>
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="password" 
+                                   name="password"
+                                   placeholder="Set a password for editing/deleting"
+                                   required>
+                            <div class="form-text text-warning">
+                                ⚠️ Remember this password! You'll need it to edit or delete this post.
+                            </div>
+                        </div>
+                        
+                        <!-- Title -->
+                        <div class="mb-3">
+                            <label for="title" class="form-label fw-bold">Title *</label>
+                            <input type="text" 
+                                   class="form-control form-control-lg" 
+                                   id="title" 
+                                   name="title"
+                                   th:value="${post.title}"
+                                   maxlength="100"
+                                   placeholder="Enter post title"
+                                   required>
+                            <div class="form-text">
+                                <span id="titleBytes">0</span>/100 bytes 
+                                <span class="text-muted">(Max 50 Korean or 100 English characters)</span>
+                            </div>
+                            <div class="invalid-feedback">Title is too long</div>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="mb-4">
+                            <label for="content" class="form-label fw-bold">Content *</label>
+                            <textarea class="form-control" 
+                                      id="content" 
+                                      name="content"
+                                      rows="10"
+                                      placeholder="Write your post content here..."
+                                      required
+                                      th:text="${post.content}"></textarea>
+                            <div class="form-text">
+                                <span id="contentChars">0</span> characters
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <a th:href="@{${isEdit} ? '/post/' + ${post.id} : '/'}" 
+                               class="btn btn-outline-secondary">
+                                Cancel
+                            </a>
+                            <button type="submit" 
+                                    class="btn btn-primary btn-lg"
+                                    th:text="${isEdit} ? '💾 Update Post' : '🚀 Create Post'">
+                                Create Post
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="scripts">
+<script th:src="@{/js/validation.js}"></script>
+<script>
+    // Real-time byte counters
+    document.getElementById('author').addEventListener('input', function() {
+        document.getElementById('authorBytes').textContent = getByteLength(this.value);
+        validateField(this, 20);
+    });
+    
+    document.getElementById('title').addEventListener('input', function() {
+        document.getElementById('titleBytes').textContent = getByteLength(this.value);
+        validateField(this, 100);
+    });
+    
+    document.getElementById('content').addEventListener('input', function() {
+        document.getElementById('contentChars').textContent = this.value.length;
+    });
+    
+    // Initialize counters
+    document.getElementById('authorBytes').textContent = getByteLength(document.getElementById('author').value);
+    document.getElementById('titleBytes').textContent = getByteLength(document.getElementById('title').value);
+    document.getElementById('contentChars').textContent = document.getElementById('content').value.length;
+</script>
+</th:block>
+</body>
+</html>
