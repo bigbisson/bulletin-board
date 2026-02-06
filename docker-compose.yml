@@ -18,5 +18,18 @@ services:
       timeout: 5s
       retries: 5
 
+  app:
+    build: .
+    container_name: bulletin-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:${POSTGRES_PORT:-5432}/bulletin_board
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+
 volumes:
   postgres_data:
