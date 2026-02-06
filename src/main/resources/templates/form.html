@@ -25,7 +25,7 @@
                     </h3>
                 </div>
                 <div class="card-body">
-                    <form th:action="${isEdit} ? @{/post/{id}/edit(id=${post.id})} : @{/post}}" 
+                    <form th:action="${isEdit} ? @{/post/{id}/edit(id=${post.id})} : @{/post}" 
                           method="post"
                           id="postForm"
                           onsubmit="return validateForm()">

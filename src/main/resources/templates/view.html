@@ -117,7 +117,7 @@
 <th:block layout:fragment="scripts">
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var postId = [[$post.id]];
+    var postId = [[${post.id}]];
     /*]]>*/
     var action = '';
     var passwordModal = new bootstrap.Modal(document.getElementById('passwordModal'));
